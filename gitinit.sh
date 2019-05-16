@@ -70,8 +70,7 @@ function push()
     read remote
     fi
     #on verifie que la remote existe et on propose de la créer si ce n'est pas le cas
-    test=git ls-remote --exit-code "$remote"
-    if [  $test=2 ]
+    if [  git ls-remote --exit-code "$remote" = 2 ]
     then
         echo "$test"
         echo -e "cette remote n'existe pas, la creer ? \033[32mOui\033[0m/\033[31mNon\033[0m" 
