@@ -41,6 +41,7 @@ function addFiles()
     *) for i in `echo $fichiers`
        do 
        if ! test -f "$i"; then echo "le fichier $i n'existe pas"
+       addFiles
        else
             git add $i
             echo "le fichier $i a bien été ajouté au repo"
@@ -69,15 +70,20 @@ function push()
     read remote
     fi
     #on verifie que la remote existe et on propose de la créer si ce n'est pas le cas
-    git ls-remote --exit-code $remote
-    if test $? = 2
+    test=git ls-remote --exit-code "$remote"
+    if [  $test=2 ]
     then
+        echo "$test"
         echo -e "cette remote n'existe pas, la creer ? \033[32mOui\033[0m/\033[31mNon\033[0m" 
         read responseRemote
         case $responseRemote in
         oui | Oui) echo "quel est le chemin ?"
                 read $remoteUrl
-                git remote add $remote $remoteUrl;;
+                if [ git remote add $remote $remoteUrl ]
+                then
+                    echo "la création a échoué"
+                    start
+                fi;;
         non | Non) start;;
         esac
     fi

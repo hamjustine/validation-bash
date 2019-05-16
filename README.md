@@ -15,19 +15,19 @@
 >Évidemment, vous devrez réaliser un fichier readme.md en expliquant à quoi servent chaque script et quelles difficultés vous avez rencontré.
 
 ---
-_Justine et Laëtitia DFS16_
+_Justine et Laëtitia DFS16_  
 Avant de commencer merci de vérifier que les fichiers bash.sh, vagrant.sh et gitinit.sh sont bien dans le même dossier.
 
 ## Gestionnaire
-Pour commencer dans votre terminal vous devez lancer bash.sh .
-Si jamais vous ne savez pas quoi faire vous pouvez taper help après avoir lancer le script.
-Les différents choix qui vont s'offrir a vous, vous permette de :
-* Gérer vos fichier;
-* Lancer une vagrant;
+Pour commencer dans votre terminal vous devez lancer bash.sh.  
+Si jamais vous ne savez pas quoi faire vous pouvez taper help après avoir lancé le script.  
+Les différents choix qui vont s'offrir à vous, vous permettent de :  
+* Gérer vos fichiers;
+* Lancer une vagrant sous ubuntu;
 * Gérer GitHub dans votre répertoir actuel.
 
 ## Vagrant
 Vous pouvez utiliser vagrant.sh seul. Il initialisera une vagrant ubuntu/xenial64, vous demandra le dossier avec lequel vous souhaitez synchroniser votre vagrant. Et mettra à jour celle-ci, puis vous connectera.
 
 ## Github
-Vous pouvez utiliser gitinit.sh seul. Il vous permettra d'initialiser un répertoir, d'ajouter des fichier dessus et de push.
+Vous pouvez utiliser gitinit.sh seul. Il vous permettra d'initialiser un répertoire, d'ajouter des fichier dessus et de push. Il gere les cas où votre remote n'existe pas et vous permet de mettre un message personnalisé lors de votre push.
