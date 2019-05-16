@@ -70,24 +70,26 @@ function push()
     fi
     #on verifie que la remote existe et on propose de la créer si ce n'est pas le cas
     git ls-remote --exit-code $remote
-    if !test $? = 0
+    if test $? = 2
     then
         echo -e "cette remote n'existe pas, la creer ? \033[32mOui\033[0m/\033[31mNon\033[0m" 
-        read $responseRemote
+        read responseRemote
         case $responseRemote in
-        oui/Oui) echo "quel est le chemin ?"
+        oui | Oui) echo "quel est le chemin ?"
                 read $remoteUrl
                 git remote add $remote $remoteUrl;;
-        non/Non) start;;
+        non | Non) start;;
         esac
     fi
     echo "quel message voulez vous ajouter a votre commit ?'First commit' par défaut"
     read message
     #si le message est vide, le message de base sera 'first commit'
-    if -z "$message"; then $message = "first commit"
+    if [ -z "$message" ]
+    then 
+        $message="first commit"
     fi
     git commit -m "$message"
-    git push master $remote
+    git push $remote master 
     echo "le push a bien été réalisé"
     start
 }

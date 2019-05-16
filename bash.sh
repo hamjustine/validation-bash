@@ -1,13 +1,3 @@
-#!/bin/bash
-# if [ $# -eq 1 ]; then
-#     echo -e "\033[32m\033[5m$1\033[0m"
-#     exit
-#  elif  [ $# -gt 1 ]; then
-#     echo "Trop de parametres"
-#     exit
-# fi
-
-
 function Accueil() {
     echo "Bonjour, que voulez vous faire ?"
     echo -e " pour l'aide tapez \033[44m\033[5m\033[97m help \033[0m"
@@ -40,6 +30,7 @@ function afficherAide()
 
 function github()
 {
+    #si jamais le user n'a pas les droits, on les mets :>
     chmod 777 gitinit.sh
     ./gitinit.sh
 }
@@ -53,7 +44,9 @@ function vagrantLaunch()
 
 function moveTo()
 {
+    #on recupère le nom du dossier/fichier en cutant la chaine après la commande
     subStr=${reponse:7}
+    #on verifie s'il existe
     if test -d "$subStr"; then
         cd $subStr
         echo -e "vous etes maintenant dans le dossier \033[34m$subStr\033[30m"
@@ -69,6 +62,8 @@ function moveTo()
         esac
     fi
 }
+
+# cette fonction nous permet d'avoir des actions differentes si c'est un dossier ou un fichier
 function Agir()
 {
     if $reponse2 = "Dossier"; then
@@ -89,10 +84,13 @@ function Dossier
     case $reponse3 in
         create* | Create* | CREATE*) subStr=${reponse3:7}
                                         mkdir $subStr;;
+                                        
         suppr* | Suppr*) subStr=${reponse3:6}
+        #on compte le nombre de fichiers dans le dossier
                             var=$(ls -a $subStr | sed -e "/\.$/d" | wc -l)
                             echo $var
                             sleep 5
+                            #s'il n'y a pas de fichier, on supprime sans probleme, sinon on lui demande s'il est bourrin
                             if [ $var -eq 0 ]
                             then
                                 rm $subStr
@@ -123,6 +121,7 @@ function Fichier
                         cp $subStr
                         Accueil;;
         suppr* | Suppr*) subStr=${reponse3:6}
+        #on verifie si le fichier est vide avant de le supprimer
             if [ -s $subStr ]
             then
                 echo -e "\033[34m$subStr\033[30m n'est pas vide, voulez vous quand même le supprimer ? \033[32mOui\033[0m/\033[31mNon\033[0m"
@@ -147,59 +146,21 @@ function Fichier
 function Read()
 {
     subStr=${reponse:4}
-    if test -r "$subStr"; then
-        echo "vous voulez lire $subStr"
-        while IFS= read -r var
-        do
-            echo "$var"
-        done < "$subStr"
+    # on verifie si le fichier existe ou si on a les droits de le lire
+    if [ -f ${subStr} ]
+    then
+        if [ -s ${subStr} ]
+        then
+            echo "vous voulez lire $subStr"
+            while IFS= read -r var
+            do
+                echo "$var"
+            done < "$subStr"
+        fi
     else
-        echo " le fichier $subStr n'existe pas, ou vous n'avez pas les droits pour le lire"
+        echo "le fichier $subStr n'existe pas, ou vous n'avez pas les droits pour le lire"
     fi
     Accueil
 }
 
 Accueil
-
-
-
-
-
-# NomDossier="test"
-# echo "dossier a créer :"
-
-# while [ $NomDossier != "stop" ]
-#   do 
-#     read NomDossier
-#     if [ $NomDossier = "stop" ]
-#     then
-#         exit
-#     fi
-#     mkdir $NomDossier
-#     echo "le dossier $NomDossier vient d'être créé, ensuite ?"
-#     done
-#   echo "fin du script"
-
-# echo "Aimez vous les cheeseburger?"
-# read varmmo
-
-# if [ $varmmo == "Oui" ]
-# then
-#     echo "vous avez bien raison"
-# elif [ $varmmo == "Non" ]
-# then
-#     echo " il en faut bien pour tout le monde"
-# fi
-
-# echo -e "$num1 + $num2 = \033[45m\033[5m$somme\033[0m"
-
-# echo "premier chiffre"
-# read num1
-# total=0
-# while [ $num1 != "=" ]
-#     do
-#     total=$(($num1+$total))
-#     echo "ensuite ?"
-#     read num1
-#     done
-# echo $total
